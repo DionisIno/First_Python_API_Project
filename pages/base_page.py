@@ -1,5 +1,7 @@
 import json.decoder
 from requests import *
+import random
+from datetime import datetime
 
 
 class BasePage:
@@ -18,3 +20,17 @@ class BasePage:
             assert False, f"""response is not in JSON format. Response text is {response.text}"""
         assert name in response_json, f"""Response JSON doesn't have key '{name}'"""
         return response_json[name]
+
+    def prepare_registration_date(self, email=None):
+        if email is None:
+            base_part = random.choice(["example", "learn", "myemail", "advokat"])
+            domain = random.choice(["@example.com", "@gmail.com", "@mail.ru", "@yandex.ru"])
+            random_part = datetime.now().strftime("%m%d%Y%H%M%S")
+            email = f"""{base_part}{random_part}{domain}"""
+        return {
+            "password": "123",
+            "username": "learnqa",
+            "firstName": "learnqa",
+            "lastName": "learnqa",
+            "email": email
+        }
