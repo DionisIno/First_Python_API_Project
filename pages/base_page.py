@@ -2,17 +2,21 @@ import json.decoder
 from requests import *
 import random
 from datetime import datetime
+import allure
 
 
 class BasePage:
+    @allure.description("This method get cookies")
     def get_cookie(self, response: Response, cookie_name):
         assert cookie_name in response.cookies, f"""Cannot find cookie with name {cookie_name} in the response"""
         return response.cookies[cookie_name]
 
+    @allure.description("This method get headers")
     def get_header(self, response: Response, headers_name):
         assert headers_name in response.headers, f"""Cannot find header with name {headers_name} in the response"""
         return response.headers[headers_name]
 
+    @allure.description("This method get JSON value")
     def get_json_value(self, response: Response, name):
         try:
             response_json = response.json()
@@ -21,6 +25,7 @@ class BasePage:
         assert name in response_json, f"""Response JSON doesn't have key '{name}'"""
         return response_json[name]
 
+    @allure.description("This method get registration date")
     def prepare_registration_date(self, email=None):
         if email is None:
             base_part = random.choice(["example", "learn", "myemail", "advokat"])
